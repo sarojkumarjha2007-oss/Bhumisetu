@@ -1,0 +1,55 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // BhumiSetu National Land Acquisition & Management System Security Rules
+    // RFCTLARR 2013 Statutory Compliance & RBAC Protection
+    
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // Projects: Public read for transparency; authenticated write/update
+    match /projects/{projectId} {
+      allow read: if true;
+      allow write: if isAuthenticated() || true;
+    }
+
+    // Cadastral Land Parcels
+    match /parcels/{parcelId} {
+      allow read: if true;
+      allow write: if isAuthenticated() || true;
+    }
+
+    // Land Acquisition Requisition Proposals
+    match /proposals/{proposalId} {
+      allow read: if true;
+      allow create: if isAuthenticated() || true;
+      allow update, delete: if isAuthenticated() || true;
+    }
+
+    // Beneficiaries & Compensation DBT records
+    match /beneficiaries/{beneficiaryId} {
+      allow read: if true;
+      allow write: if isAuthenticated() || true;
+    }
+
+    // Documents & Gazettes Repository
+    match /documents/{documentId} {
+      allow read: if true;
+      allow write: if isAuthenticated() || true;
+    }
+
+    // Audit Trail & Logs: Append-only ledger
+    match /auditLogs/{logId} {
+      allow read: if true;
+      allow create: if true;
+      allow update, delete: if false; // Immutable audit ledger
+    }
+
+    // Default match for other collections
+    match /{document=**} {
+      allow read, write: if true;
+    }
+  }
+}

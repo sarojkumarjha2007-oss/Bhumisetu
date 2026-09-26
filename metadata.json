@@ -1,0 +1,6 @@
+{
+  "name": "BhumiSetu - National Land Acquisition & Management System",
+  "description": "Real-Time National Land Acquisition & Management System for End-to-End Digital Monitoring and Decision Support (DoLR, Ministry of Rural Development, GoI).",
+  "requestFramePermissions": ["geolocation"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
